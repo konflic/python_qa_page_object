@@ -11,7 +11,9 @@ class UserRegisterPage(BasePage):
         self._verify_element_presence(RegisterLocators.NAME_FIELD)
 
     def __init__(self, browser):
-        super().__init__(browser)
+        self.browser, self.url = browser
+        self.driver = self.browser
+        self._config_logger()
         self.open_register_page()
 
     def input_name(self, name):
@@ -35,6 +37,7 @@ class UserRegisterPage(BasePage):
         self._send_keys(RegisterLocators.PASS_FIELD, password)
         self._click(RegisterLocators.PASS_CONFIRM)
         self._send_keys(RegisterLocators.PASS_CONFIRM, password)
+        self.logger.info("ввожу пароль")
 
     def confirm_privacy_policy(self):
         self._click(RegisterLocators.PRIVACY_POLICY)

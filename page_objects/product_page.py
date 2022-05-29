@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.relative_locator import locate_with
+import logging
 
 from page_objects.elements.product_locators import ProductLocators
 from page_objects.admin_page import AdminPage
@@ -9,6 +10,8 @@ class ProductPage(AdminPage):
 
     def __init__(self, browser):
         self.browser, self.url = browser
+        self.driver = self.browser
+        self._config_logger()
         self.browser.get(self.url + '/admin')
         AdminPage(browser).login_to_admin()
         self.go_to_product_page()

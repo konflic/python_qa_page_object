@@ -6,7 +6,9 @@ name = "pypi"
 [packages]
 pytest = "==6.2.3"
 selenium = "==3.14.0"
-mysql-connector-python = "==8.0.22"
+basepage = "*"
+faker = "*"
+self = "*"
 
 [dev-packages]
 

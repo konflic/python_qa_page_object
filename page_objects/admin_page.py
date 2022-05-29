@@ -1,3 +1,5 @@
+import logging
+
 from page_objects.base_page import BasePage
 from page_objects.elements.registration_locators import RegisterLocators
 
@@ -5,8 +7,11 @@ from page_objects.elements.registration_locators import RegisterLocators
 class AdminPage(BasePage):
     def __init__(self, browser):
         self.browser, self.url = browser
+        self.driver = self.browser
+        self._config_logger()
         self.browser.get(self.url + '/admin')
         self.check_admin_page()
+
 
     def check_admin_page(self):
         self._verify_element_presence(RegisterLocators.INPUT_USERNAME)

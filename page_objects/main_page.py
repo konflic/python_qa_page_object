@@ -4,6 +4,11 @@ from page_objects.elements.currency_locators import CurrencyLocators
 
 class MainPage(BasePage):
 
+    def __init__(self, browser):
+        self.browser, self.url = browser
+        self.driver = self.browser
+        self._config_logger()
+
     # взаимодействие с валютным списком
     def click_euro_currency_button(self):
         self._click(CurrencyLocators.CURRENCY_BUTTON)
