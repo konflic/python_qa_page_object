@@ -1,9 +1,11 @@
 import datetime
 import logging
 
+import allure
 import pytest
 import os
 
+from allure_commons.types import AttachmentType
 from selenium import webdriver
 
 DRIVERS = os.path.expanduser("/Users/alicerossi/python_qa_page_object/drivers")
@@ -16,6 +18,13 @@ def pytest_addoption(parser):
     parser.addoption("--tolerance", type=int, default=3)
     parser.addoption("--log_level", action="store", default="INFO")
 
+
+@pytest.hookimpl(hookwrapper=True, tryfirst=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+    setattr(item, "rep_" + rep.when, rep)
+    return rep
 
 @pytest.fixture
 def browser(request):
@@ -55,9 +64,28 @@ def browser(request):
     logger.info("Browser:{}".format(browser, driver.desired_capabilities))
 
     def end():
+        if request.node.rep_call.failed:
+            # Make the screen-shot if test failed:
+            allure.attach(driver.get_screenshot_as_png(),
+                          name=request.function.__name__,
+                          attachment_type=allure.attachment_type.PNG)
+
         driver.quit()
         logger.info("===> Test {} finished at {}".format(request.node.name, datetime.datetime.now()))
 
     request.addfinalizer(end)
-
     return driver, url
+
+
+@pytest.fixture(scope="session", autouse=True)
+def get_environment(pytestconfig, request):
+    props = {
+        'Browser': request.config.getoption("--browser"),
+        'Stand': 'Production',
+        'executor': request.config.getoption("--executor")
+    }
+
+    tests_root = pytestconfig.rootdir
+    with open(f'{tests_root}/tests/allure-results/environment.properties', 'w') as f:
+        env_props = '\n'.join([f'{k}={v}' for k, v in props.items()])
+        f.write(env_props)
