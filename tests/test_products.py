@@ -9,8 +9,8 @@ def test_adding_new_product(browser):
     product.create_a_product()
     with allure.step('ищем товар в таблице'):
         element = (By.XPATH, "//td[@class='text-left' and text()='new cool stuff']/preceding-sibling::td[./input]/input")
-    with allure.step('удаляем товар'):
-        product.delete_element(element)
+
+    product.delete_element(element)
 
 
 def test_deleting_a_product(browser):

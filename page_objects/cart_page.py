@@ -15,3 +15,4 @@ class CartPage(BasePage):
         self._verify_element_presence(self.CONTENT)
         self._verify_link_presence(product_name)
         return self
+

@@ -4,11 +4,9 @@ import logging
 import allure
 import pytest
 import os
-
-from allure_commons.types import AttachmentType
 from selenium import webdriver
 
-DRIVERS = os.path.expanduser("/Users/alicerossi/python_qa_page_object/drivers")
+DRIVERS = os.getenv('DRIVERS')
 
 
 def pytest_addoption(parser):
@@ -17,6 +15,10 @@ def pytest_addoption(parser):
     parser.addoption("--url", "-U", default="http://192.168.1.38/")
     parser.addoption("--tolerance", type=int, default=3)
     parser.addoption("--log_level", action="store", default="INFO")
+    parser.addoption("--bversion", action="store", default="99.0")
+    parser.addoption("--vnc", action="store_true", default=False)
+    parser.addoption("--logs", action="store_true", default=False)
+    parser.addoption("--videos", action="store_true", default=False)
 
 
 @pytest.hookimpl(hookwrapper=True, tryfirst=True)
@@ -26,27 +28,49 @@ def pytest_runtest_makereport(item, call):
     setattr(item, "rep_" + rep.when, rep)
     return rep
 
+
 @pytest.fixture
 def browser(request):
     browser = request.config.getoption("--browser")
+    version = request.config.getoption("--bversion")
     executor = request.config.getoption("--executor")
     url = request.config.getoption("--url")
     tolerance = request.config.getoption("--tolerance")
     log_level = request.config.getoption("--log_level")
     common_caps = {"pageLoadStrategy": "eager"}
+    vnc = request.config.getoption("--vnc")
+    logs = request.config.getoption("--logs")
+    videos = request.config.getoption("--videos")
 
     logger = logging.getLogger(request.node.name)
-    file_handler = logging.FileHandler(f"logs/{request.node.name}.log")
+    logger.setLevel(level=log_level)
+    log_filename = f"logs/{request.node.name}.log"
+    os.makedirs(os.path.dirname(log_filename), exist_ok=True)
+    file_handler = logging.FileHandler(log_filename)
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
     logger.addHandler(file_handler)
-    logger.setLevel(level=log_level)
-
     logger.info("===> Test {} started at {}".format(request.node.name, datetime.datetime.now()))
 
-    driver = webdriver.Chrome(
-        executable_path=f"{DRIVERS}/chromedriver",
-        desired_capabilities=common_caps
-    )
+    if executor == "local":
+        driver = webdriver.Chrome(
+            executable_path=f"{DRIVERS}/chromedriver",
+            desired_capabilities=common_caps
+        )
+
+    else:
+        executor_url = f"http://{executor}:4444/wd/hub"
+        caps = {
+            "browserName": browser,
+            "browserVersion": version,
+            "screenResolution": "1280x1024",
+            "name": "arossi tests",
+            "selenoid:options": {
+                "sessionTimeout": "60s",
+                "enableVNC": vnc,
+                "enableVideo": videos,
+                "enableLog": logs
+            }
+        }
 
     def open(path=""):
         return driver.get(url + path)

@@ -1,3 +1,5 @@
+import allure
+
 from .base_page import BasePage
 from page_objects.elements.currency_locators import CurrencyLocators
 
@@ -10,19 +12,22 @@ class MainPage(BasePage):
         self._config_logger()
 
     # взаимодействие с валютным списком
+    @allure.step('кликаем валюту')
     def click_euro_currency_button(self):
         self._click(CurrencyLocators.CURRENCY_BUTTON)
         self._click(CurrencyLocators.EURO_BUTTON)
 
+    @allure.step('кликаем валюту')
     def click_dollar_currency_button(self):
         self._click(CurrencyLocators.CURRENCY_BUTTON)
         self._click(CurrencyLocators.DOLLAR_BUTTON)
 
+    @allure.step('кликаем валюту')
     def click_pound_currency_button(self):
         self._click(CurrencyLocators.CURRENCY_BUTTON)
         self._click(CurrencyLocators.POUND_BUTTON)
 
-
+    @allure.step('проверяем валюту')
     def check_currency_menu_and_cart(self, currency):
         currency_mapper = {
             "EURO": {
@@ -44,3 +49,4 @@ class MainPage(BasePage):
         currency_mapper.get(currency).get("button_clicker")()
         self._verify_element_presence(currency_mapper.get(currency).get("active_currency_list"))
         self._verify_element_presence(currency_mapper.get(currency).get("currency_in_cart"))
+
