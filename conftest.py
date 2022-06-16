@@ -71,6 +71,10 @@ def browser(request):
                 "enableLog": logs
             }
         }
+        wd = webdriver.Remote(
+            command_executor=executor_url,
+            desired_capabilities=caps
+        )
 
     def open(path=""):
         return driver.get(url + path)
