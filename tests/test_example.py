@@ -7,6 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from page_objects.MainPage import MainPage
 from page_objects.UserPage import UserPage
 from page_objects.ProductPage import ProductPage
+from page_objects.CartPage import CartPage
+from page_objects.ComparisonPage import ComparisonPage
 
 
 def test_add_to_wish_list(browser):
@@ -19,7 +21,7 @@ def test_add_to_wish_list(browser):
     # Авторизация
     UserPage(browser).login("test2@mail.ru", "test")
     # Переходим в вишлист пользователя
-    browser.find_element_by_link_text('Wish List').click()
+    UserPage(browser).open_wish_list()
     # Ждём пока появится раздел с товаром
     WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, product_name)))
 
@@ -34,7 +36,7 @@ def test_add_to_cart(browser):
     # Ждём пока появится раздел с товаром
     WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, product_name)))
     # Клик по кнопке checkout
-    browser.find_element_by_css_selector(".buttons").find_element_by_link_text("Checkout").click()
+    CartPage(browser).click_checkout()
     # Авторизация
     UserPage(browser).login("test2@mail.ru", "test")
     # Проверка появления формы оплаты
@@ -51,13 +53,13 @@ def test_add_to_cart_from_comparison(browser):
     # Ждём пока появится раздел с товаром
     WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, product_name)))
     # Добавляем товар в корзину
-    browser.find_element_by_css_selector("#content").find_element_by_css_selector("input[value='Add to Cart']").click()
+    ComparisonPage(browser).add_to_cart()
     # Клик по ссылке корзины в алерте
     browser.find_element_by_css_selector(".alert-success").find_element_by_link_text("shopping cart").click()
     # Ждём пока появится раздел с товаром
     WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, product_name)))
     # Клик по кнопке checkout
-    browser.find_element_by_css_selector(".buttons").find_element_by_link_text("Checkout").click()
+    CartPage(browser).click_checkout()
     # Авторизация
     UserPage(browser).login("test2@mail.ru", "test")
     # Проверка появления платёжной формы
