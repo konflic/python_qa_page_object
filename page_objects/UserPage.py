@@ -1,6 +1,4 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 
 from page_objects.BasePage import BasePage
 
@@ -13,15 +11,12 @@ class UserPage(BasePage):
     PAYMENT_FORM = ((By.ID, "payment-new"))
 
     def login(self, username, password):
-        self.driver.find_element(*self.EMAIL_INPUT).send_keys(username)
-        self.driver.find_element(*self.PASSWORD_INPUT).send_keys(password)
-        self.driver.find_element(*self.LOGIN_BUTTON).click()
+        self.element(self.EMAIL_INPUT).send_keys(username)
+        self.element(self.PASSWORD_INPUT).send_keys(password)
+        self.element(self.LOGIN_BUTTON).click()
 
     def open_wish_list(self):
-        self.driver.find_element(*self.WISH_LIST_LINK).click()
+        self.element(self.WISH_LIST_LINK).click()
 
     def verify_payment_form(self):
-        return WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(self.PAYMENT_FORM))
-
-    def verify_product_item(self, product_name):
-        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, product_name)))
+        return self.element(self.PAYMENT_FORM)

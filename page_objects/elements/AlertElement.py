@@ -11,16 +11,16 @@ class AlertElement(BasePage):
 
     def __init__(self, driver):
         super().__init__(driver=driver)
-        self.this = self.driver.find_element(*self.THIS)
+        self.this = self.element(self.THIS)
 
     @property
     def comparison(self):
-        return self.this.find_element(*self.COMPARISON)
+        return self.element(self.COMPARISON)
 
     @property
     def login(self):
-        return self.this.find_element(*self.LOGIN)
+        return self.element(self.LOGIN)
 
     @property
     def cart(self):
-        return self.this.find_element(*self.CART)
+        return self.element(self.CART)
