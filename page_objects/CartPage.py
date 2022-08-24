@@ -2,13 +2,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from page_objects.BasePage import BasePage
 
-class CartPage:
+
+class CartPage(BasePage):
     BUTTONS = (By.CSS_SELECTOR, ".buttons")
     CHECKOUT_LINK = (By.LINK_TEXT, "Checkout")
-
-    def __init__(self, driver):
-        self.driver = driver
 
     def click_checkout(self):
         self.driver.find_element(*self.BUTTONS).find_element(*self.CHECKOUT_LINK).click()

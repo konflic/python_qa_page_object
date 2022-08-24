@@ -1,17 +1,16 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
+from page_objects.BasePage import BasePage
 
 
-class UserPage:
+class UserPage(BasePage):
     EMAIL_INPUT = (By.CSS_SELECTOR, "#input-email")
     PASSWORD_INPUT = (By.CSS_SELECTOR, "#input-password")
     LOGIN_BUTTON = (By.CSS_SELECTOR, "input[value=Login]")
     WISH_LIST_LINK = (By.LINK_TEXT, 'Wish List')
     PAYMENT_FORM = ((By.ID, "payment-new"))
-
-    def __init__(self, driver):
-        self.driver = driver
 
     def login(self, username, password):
         self.driver.find_element(*self.EMAIL_INPUT).send_keys(username)
