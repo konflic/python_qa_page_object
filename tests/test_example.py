@@ -23,7 +23,7 @@ def test_add_to_wish_list(browser):
     # Переходим в вишлист пользователя
     UserPage(browser).open_wish_list()
     # Ждём пока появится раздел с товаром
-    WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, product_name)))
+    UserPage(browser).verify_product_item(product_name)
 
 
 def test_add_to_cart(browser):
@@ -34,13 +34,13 @@ def test_add_to_cart(browser):
     # Клик по ссылке корзины в алерте
     browser.find_element_by_css_selector(".alert-success").find_element_by_link_text("shopping cart").click()
     # Ждём пока появится раздел с товаром
-    WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, product_name)))
+    CartPage(browser).verify_product_item(product_name)
     # Клик по кнопке checkout
     CartPage(browser).click_checkout()
     # Авторизация
     UserPage(browser).login("test2@mail.ru", "test")
     # Проверка появления формы оплаты
-    WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.ID, "payment-new")))
+    UserPage(browser).verify_payment_form()
 
 
 def test_add_to_cart_from_comparison(browser):
@@ -51,7 +51,7 @@ def test_add_to_cart_from_comparison(browser):
     # Клик по ссылке сравнения в алерте
     browser.find_element_by_css_selector(".alert-success").find_element_by_link_text("product comparison").click()
     # Ждём пока появится раздел с товаром
-    WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, product_name)))
+    ComparisonPage(browser).verify_product_item(product_name)
     # Добавляем товар в корзину
     ComparisonPage(browser).add_to_cart()
     # Клик по ссылке корзины в алерте
@@ -63,4 +63,4 @@ def test_add_to_cart_from_comparison(browser):
     # Авторизация
     UserPage(browser).login("test2@mail.ru", "test")
     # Проверка появления платёжной формы
-    WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.ID, "payment-new")))
+    UserPage(browser).verify_payment_form()
