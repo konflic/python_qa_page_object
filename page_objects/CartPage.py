@@ -7,4 +7,4 @@ class CartPage(BasePage):
     CHECKOUT_LINK = (By.LINK_TEXT, "Checkout")
 
     def click_checkout(self):
-        self.element(self.BUTTONS).find_element(*self.CHECKOUT_LINK).click()
+        self.element_in_element(self.BUTTONS, self.CHECKOUT_LINK).click()

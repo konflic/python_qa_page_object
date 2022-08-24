@@ -14,9 +14,12 @@ class UserPage(BasePage):
         self.element(self.EMAIL_INPUT).send_keys(username)
         self.element(self.PASSWORD_INPUT).send_keys(password)
         self.element(self.LOGIN_BUTTON).click()
+        return self
 
     def open_wish_list(self):
         self.element(self.WISH_LIST_LINK).click()
+        return self
 
     def verify_payment_form(self):
-        return self.element(self.PAYMENT_FORM)
+        self.element(self.PAYMENT_FORM)
+        return self

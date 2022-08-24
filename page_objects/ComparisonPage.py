@@ -8,4 +8,4 @@ class ComparisonPage(BasePage):
     CONTENT = (By.CSS_SELECTOR, "#content")
 
     def add_to_cart(self):
-        self.element(self.CONTENT).find_element(*self.ADD_TO_CART).click()
+        self.element_in_element(self.CONTENT, self.ADD_TO_CART).click()

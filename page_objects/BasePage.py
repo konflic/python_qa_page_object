@@ -10,6 +10,9 @@ class BasePage:
     def __init__(self, driver):
         self.driver = driver
 
+    def element_in_element(self, parent_locator: tuple, child_locator: tuple):
+        return self.element(parent_locator).find_element(*child_locator)
+
     def element(self, locator: tuple):
         try:
             return WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(locator))
