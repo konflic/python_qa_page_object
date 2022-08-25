@@ -11,5 +11,5 @@ class MainPage(BasePage):
         """Так делать не нужно! :)"""
         feature_product = self.elements(self.FEATURED_PRODUCT)[index]
         product_name = feature_product.find_element(*self.PRODUCT_NAME).text
-        feature_product.click()
+        self.click(feature_product)
         return product_name

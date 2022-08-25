@@ -11,11 +11,11 @@ class ProductPage(BasePage):
     CART = (By.CSS_SELECTOR, "#button-cart")
 
     def add_to_wish_list(self):
-        self.element(self.WISH_LIST).click()
+        self.click(self.element(self.WISH_LIST))
 
     def add_to_comparison(self):
-        self.element(self.COMPARE).click()
+        self.click(self.element(self.COMPARE))
 
     def add_to_cart(self):
         time.sleep(1.5)  # Page loading problem
-        self.element(self.CART).click()
+        self.click(self.element(self.CART))

@@ -11,13 +11,13 @@ class UserPage(BasePage):
     PAYMENT_FORM = ((By.ID, "payment-new"))
 
     def login(self, username, password):
-        self.element(self.EMAIL_INPUT).send_keys(username)
-        self.element(self.PASSWORD_INPUT).send_keys(password)
-        self.element(self.LOGIN_BUTTON).click()
+        self._input(self.element(self.EMAIL_INPUT), username)
+        self._input(self.element(self.PASSWORD_INPUT), password)
+        self.click(self.element(self.LOGIN_BUTTON))
         return self
 
     def open_wish_list(self):
-        self.element(self.WISH_LIST_LINK).click()
+        self.click(self.element(self.WISH_LIST_LINK))
         return self
 
     def verify_payment_form(self):
