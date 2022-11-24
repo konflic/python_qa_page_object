@@ -5,17 +5,16 @@ import allure
 import pytest
 import os
 from selenium import webdriver
-
-DRIVERS = os.getenv('DRIVERS')
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 def pytest_addoption(parser):
     parser.addoption("--browser", "-B", default="chrome")
     parser.addoption("--executor", "-E", default="local")
-    parser.addoption("--url", "-U", default="http://192.168.1.38/")
+    parser.addoption("--url", "-U", default="https://www.opencart.ru")
     parser.addoption("--tolerance", type=int, default=3)
     parser.addoption("--log_level", action="store", default="INFO")
-    parser.addoption("--bversion", action="store", default="99.0")
+    parser.addoption("--bversion", action="store", default="107.0")
     parser.addoption("--vnc", action="store_true", default=False)
     parser.addoption("--logs", action="store_true", default=False)
     parser.addoption("--videos", action="store_true", default=False)
@@ -52,10 +51,7 @@ def browser(request):
     logger.info("===> Test {} started at {}".format(request.node.name, datetime.datetime.now()))
 
     if executor == "local":
-        driver = webdriver.Chrome(
-            executable_path=f"{DRIVERS}/chromedriver",
-            desired_capabilities=common_caps
-        )
+        driver = webdriver.Chrome(ChromeDriverManager().install())
 
     else:
         executor_url = f"http://{executor}:4444/wd/hub"
