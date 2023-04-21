@@ -10,9 +10,9 @@ def test_add_to_wish_list(browser):
     product_name = MainPage(browser).click_featured_product(0)
     ProductPage(browser).add_to_wish_list()
     AlertElement(browser).login.click()
-    UserPage(browser) \
-        .login(*get_user()) \
-        .open_wish_list() \
+    UserPage(browser)\
+        .login(*get_user())\
+        .open_wish_list()\
         .verify_product_item(product_name)
 
 

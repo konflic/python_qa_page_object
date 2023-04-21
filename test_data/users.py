@@ -1,11 +1,12 @@
-import random
+import mysql.connector
 
-_users = [
-    ("test2@mail.ru", "test"),
-    ("test3@mail.ru", "test"),
-    ("test4@mail.ru", "test")
-]
+from helpers import create_random_user
 
 
 def get_user():
-    return random.choice(_users)
+    connection = mysql.connector.connect(
+        user='bn_opencart',
+        host='127.0.0.1',
+        database='bitnami_opencart'
+    )
+    return create_random_user(connection), "test"
