@@ -1,6 +1,4 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from page_objects.base_page import BasePage
 
@@ -14,12 +12,12 @@ class UserPage(BasePage):
     WISH_LIST_LINK = By.LINK_TEXT, "Wish List"
 
     def login(self, username, password):
-        self.browser.find_element(*self.LOGIN_INPUT).send_keys(username)
-        self.browser.find_element(*self.PASSWORD_INPUT).send_keys(password)
-        self.browser.find_element(*self.SUBMIT_LOGIN_BUTTON).click()
+        self.get_element(self.LOGIN_INPUT).send_keys(username)
+        self.get_element(self.PASSWORD_INPUT).send_keys(password)
+        self.get_element(self.SUBMIT_LOGIN_BUTTON).click()
 
     def wait_logged_in(self):
-        WebDriverWait(self.browser, 2).until(EC.visibility_of_element_located(self.LOGOUT_LINK))
+        self.get_element(self.LOGOUT_LINK)
 
     def click_wish_list(self):
-        self.browser.find_element(*self.USER_MENU).find_element(*self.WISH_LIST_LINK).click()
+        self.get_element(self.USER_MENU).find_element(*self.WISH_LIST_LINK).click()
