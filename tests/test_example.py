@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from page_objects.main_page import MainPage
 from page_objects.user_page import UserPage
 from page_objects.product_page import ProductPage
+from page_objects.cart_page import CartPage
 
 
 def test_add_to_wish_list(browser):
@@ -30,8 +31,8 @@ def test_add_to_cart(browser):
     # Работа с алертом
     browser.find_element_by_css_selector(".alert-success").find_element_by_link_text("shopping cart").click()
     # Работа в корзине
-    WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, product_name)))
-    browser.find_element_by_link_text("Checkout").click()
+    CartPage(browser).wait_for_product_in_cart(product_name)
+    CartPage(browser).click_checkout()
     # Переход к логину
     browser.find_element_by_link_text("login page").click()
     # Авторизация
@@ -53,8 +54,8 @@ def test_add_to_cart_from_comparison(browser):
     # Работа с алертом
     browser.find_element_by_css_selector(".alert-success").find_element_by_link_text("shopping cart").click()
     # Работа в корзине
-    WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, product_name)))
-    browser.find_element_by_link_text("Checkout").click()
+    CartPage(browser).wait_for_product_in_cart(product_name)
+    CartPage(browser).click_checkout()
     # Переход к логину
     browser.find_element_by_link_text("login page").click()
     # Авторизация
