@@ -2,12 +2,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from page_objects.base_page import BasePage
 
-class ComparisonPage:
+
+class ComparisonPage(BasePage):
     CONFIRM_BUTTON = By.CSS_SELECTOR, "#button-confirm"
-
-    def __init__(self, browser):
-        self.browser = browser
 
     def _product_name(self, product_name):
         return (By.XPATH, f"//*[@id='product-compare']//*[text()='{product_name}']")

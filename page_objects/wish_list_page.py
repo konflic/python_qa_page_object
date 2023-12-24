@@ -2,11 +2,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from page_objects.base_page import BasePage
 
-class WishListPage:
 
-    def __init__(self, browser):
-        self.browser = browser
+class WishListPage(BasePage):
 
     def _product_name(self, product_name):
         return (By.XPATH, f"//*[@id='account-wishlist']//*[text()='{product_name}']")
