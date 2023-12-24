@@ -3,6 +3,7 @@ import os
 import mysql.connector
 
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 DRIVERS = os.path.expanduser("~/Downloads/drivers")
 
@@ -16,13 +17,12 @@ def browser(request):
     url = request.config.getoption("--url")
 
     driver = webdriver.Chrome(
-        executable_path=f"{DRIVERS}/chromedriver"
+        service=ChromeService(executable_path=f"{DRIVERS}/chromedriver")
     )
 
     request.addfinalizer(driver.quit)
 
     driver.maximize_window()
-    driver.implicitly_wait(3)
 
     driver.get(url)
 

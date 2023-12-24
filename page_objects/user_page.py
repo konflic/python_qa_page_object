@@ -15,3 +15,6 @@ class UserPage:
 
     def wait_logged_in(self):
         WebDriverWait(self.browser, 2).until(EC.visibility_of_element_located((By.LINK_TEXT, "Logout")))
+
+    def click_wish_list(self):
+        self.browser.find_element(By.CSS_SELECTOR, "#column-right").find_element(By.LINK_TEXT, "Wish List").click()
