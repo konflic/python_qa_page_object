@@ -13,4 +13,4 @@ class ComparisonPage(BasePage):
         self.get_element(self._product_name(product_name))
 
     def click_confirm(self):
-        self.get_element(self.CONFIRM_BUTTON).click()
+        self.click(self.CONFIRM_BUTTON)

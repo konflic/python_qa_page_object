@@ -10,4 +10,7 @@ class MainPage(BasePage):
         return self.get_elements(self.FEATURED_PRODUCT_NAME)[index].text
 
     def click_featured_product(self, index=0):
-        self.get_elements(self.FEATURED_PRODUCT_NAME)[index].click()
+        if index == 0:
+            self.click(self.FEATURED_PRODUCT_NAME)
+        else:
+            self.get_elements(self.FEATURED_PRODUCT_NAME)[index].click()

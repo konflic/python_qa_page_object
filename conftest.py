@@ -17,7 +17,7 @@ def browser(request):
     url = request.config.getoption("--url")
 
     driver = webdriver.Chrome(
-        service=ChromeService(executable_path=f"{DRIVERS}/chromedriver")
+        service=ChromeService()
     )
 
     request.addfinalizer(driver.quit)

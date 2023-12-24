@@ -4,12 +4,12 @@ from page_objects.base_page import BasePage
 
 
 class CheckoutPage(BasePage):
-    CHECKOUT_FORM = By.ID, "checkout-checkout"
-    CHECKOUT_PAYMENT_FORM = By.ID, "checkout-payment-method"
+    CHECKOUT_FORM = By.CSS_SELECTOR, "#checkout-checkout"
+    CHECKOUT_PAYMENT_FORM = By.CSS_SELECTOR, "#checkout-payment-method"
     LOGIN_PAGE_LINK = By.XPATH, "//strong[text()='login page']"
 
     def click_login_page_link(self):
-        self.get_element(self.LOGIN_PAGE_LINK).click()
+        self.click(self.LOGIN_PAGE_LINK)
 
     def wait_page_load(self):
         self.get_element(self.CHECKOUT_FORM)
