@@ -1,0 +1,2 @@
+class AlertElement:
+    pass
