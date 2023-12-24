@@ -15,9 +15,11 @@ class UserPage(BasePage):
         self.input_value(self.LOGIN_INPUT, username)
         self.input_value(self.PASSWORD_INPUT, password)
         self.click(self.SUBMIT_LOGIN_BUTTON)
+        return self
 
     def wait_logged_in(self):
         self.get_element(self.LOGOUT_LINK)
+        return self
 
     def click_wish_list(self):
         self.click(self.WISH_LIST_LINK)

@@ -29,7 +29,7 @@ def browser(request):
     return driver
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def db_connection(request):
     connection = mysql.connector.connect(
         user='bn_opencart',
