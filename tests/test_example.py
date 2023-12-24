@@ -9,7 +9,8 @@ from page_objects.alert_element import AlertSuccessElement
 
 
 def test_add_to_wish_list(browser):
-    product_name = MainPage(browser).click_featured_product()
+    product_name = MainPage(browser).get_featured_product_name()
+    MainPage(browser).click_featured_product()
     ProductPage(browser).add_to_wish_list()
     AlertSuccessElement(browser).login.click()
     UserPage(browser).login("test2@mail.ru", "test")
@@ -19,7 +20,8 @@ def test_add_to_wish_list(browser):
 
 
 def test_add_to_cart(browser):
-    product_name = MainPage(browser).click_featured_product()
+    product_name = MainPage(browser).get_featured_product_name(1)
+    MainPage(browser).click_featured_product(1)
     ProductPage(browser).add_to_cart()
     AlertSuccessElement(browser).shopping_cart.click()
     CartPage(browser).wait_for_product_in_cart(product_name)
@@ -30,7 +32,8 @@ def test_add_to_cart(browser):
 
 
 def test_add_to_cart_from_comparison(browser):
-    product_name = MainPage(browser).click_featured_product()
+    product_name = MainPage(browser).get_featured_product_name()
+    MainPage(browser).click_featured_product()
     ProductPage(browser).add_to_comparison()
     AlertSuccessElement(browser).comparison.click()
     ComparisonPage(browser).wait_for_product_in_comparison(product_name)

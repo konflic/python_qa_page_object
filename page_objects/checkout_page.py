@@ -3,6 +3,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 class CheckoutPage:
+    CHECKOUT_FORM = By.ID, "checkout-checkout"
+    CHECKOUT_PAYMENT_FORM = By.ID, "checkout-payment-method"
 
     def __init__(self, browser):
         self.browser = browser
@@ -11,7 +13,7 @@ class CheckoutPage:
         self.browser.find_element(By.LINK_TEXT, "login page").click()
 
     def wait_page_load(self):
-        WebDriverWait(self.browser, 5).until(EC.visibility_of_element_located((By.ID, "checkout-checkout")))
+        WebDriverWait(self.browser, 5).until(EC.visibility_of_element_located(self.CHECKOUT_FORM))
 
     def wait_payment_form(self):
-        WebDriverWait(self.browser, 5).until(EC.visibility_of_element_located((By.ID, "checkout-payment-method")))
+        WebDriverWait(self.browser, 5).until(EC.visibility_of_element_located(self.CHECKOUT_PAYMENT_FORM))

@@ -8,5 +8,8 @@ class WishListPage:
     def __init__(self, browser):
         self.browser = browser
 
+    def _product_name(self, product_name):
+        return (By.XPATH, f"//*[@id='account-wishlist']//*[text()='{product_name}']")
+
     def wait_for_product_in_wish_list(self, product_name):
-        WebDriverWait(self.browser, 5).until(EC.visibility_of_element_located((By.LINK_TEXT, product_name)))
+        WebDriverWait(self.browser, 5).until(EC.visibility_of_element_located(self._product_name(product_name)))
