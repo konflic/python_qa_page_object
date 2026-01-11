@@ -1,53 +1,38 @@
 import pytest
-import os
 import mysql.connector
 
 from selenium import webdriver
 
-DRIVERS = os.path.expanduser("~/Downloads/drivers")
-
 
 def pytest_addoption(parser):
     parser.addoption("--browser", "-B", default="chrome")
-    parser.addoption("--executor", "-E", default="127.0.0.1")
-    parser.addoption("--url", "-U", default="http://demo.opencart.com")
+    parser.addoption("--url", "-U", default="http://localhost:8081")
 
 
-@pytest.fixture
+@pytest.fixture()
 def browser(request):
-    """ Фикстура инициализации браузера """
+    """Фикстура инициализации браузера"""
 
     browser = request.config.getoption("--browser")
-    executor = request.config.getoption("--executor")
     url = request.config.getoption("--url")
 
-    # https://www.selenium.dev/documentation/en/webdriver/page_loading_strategy/
-    common_caps = {"pageLoadStrategy": "none"}
+    if browser == "chrome":
+        options = webdriver.ChromeOptions()
+        options.add_argument("--no-sandbox")
 
-    if executor == "local":
-        driver = webdriver.Chrome(
-            executable_path=f"{DRIVERS}/chromedriver",
-            desired_capabilities=common_caps
-        )
-    else:
-
-        desired_capabilities = {
-            "browser": browser,
-            **common_caps
-        }
-
-        driver = webdriver.Remote(
-            desired_capabilities=desired_capabilities,
-            command_executor=f"http://{executor}:4444/wd/hub",
-        )
+    driver = webdriver.Chrome(
+        options=options,
+    )
 
     request.addfinalizer(driver.quit)
+
+    driver.url = url
 
     def open(path=""):
         return driver.get(url + path)
 
     driver.maximize_window()
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(3)
 
     driver.open = open
     driver.open()
@@ -55,14 +40,22 @@ def browser(request):
     return driver
 
 
-@pytest.fixture
+@pytest.fixture()
 def db_connection(request):
     connection = mysql.connector.connect(
-        user='bn_opencart',
-        password='',
-        host='127.0.0.1',
-        database='bitnami_opencart',
-        port='3306'
+        user="root",
+        password="admin",
+        host="localhost",
+        database="prestashop",
+        port="3306",
     )
     request.addfinalizer(connection.close)
     return connection
+
+
+@pytest.fixture()
+def clean_wishlist(db_connection):
+    cursor = db_connection.cursor()
+    cursor.execute("DELETE FROM ps_wishlist_product")
+    db_connection.commit()
+    cursor.close()
