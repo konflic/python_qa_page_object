@@ -2,24 +2,23 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from page_objects.main_page import MainPage
+from page_objects.elements.login_form import LoginForm
+
 
 def test_add_to_wish_list(browser, clean_wishlist):
     # Выбор товара на главной
-    feature_product = browser.find_elements(By.CSS_SELECTOR, "[data-type='popularproducts'] .product")[0]
-    product_name = feature_product.find_element(By.CSS_SELECTOR, ".product-description a").text
-    feature_product.click()
+    product_name = MainPage(browser).get_featured_product_name()
+    MainPage(browser).click_featured_product()
     # Клик по кнопке избранного
     browser.find_element(By.CSS_SELECTOR, "button.wishlist-button-product").click()
     browser.find_element(By.CSS_SELECTOR, ".modal-content a")
     browser.find_element(By.CSS_SELECTOR, ".wishlist-login .wishlist-modal a").click()
     # Авторизация
-    browser.find_element(By.CSS_SELECTOR, "#field-email").send_keys("test2@mail.ru")
-    browser.find_element(By.CSS_SELECTOR, "#field-password").send_keys("Mypassword123!")
-    browser.find_element(By.CSS_SELECTOR, "#submit-login").click()
+    LoginForm(browser).login("test2@mail.ru", "Mypassword123!", "#submit-login")
     # Выбор товара на главной
-    feature_product = browser.find_elements(By.CSS_SELECTOR, "[data-type='popularproducts'] .product")[0]
-    product_name = feature_product.find_element(By.CSS_SELECTOR, ".product-description a").text
-    feature_product.click()
+    product_name = MainPage(browser).get_featured_product_name()
+    MainPage(browser).click_featured_product()
     # Клик по кнопке избранного
     browser.find_element(By.CSS_SELECTOR, "button.wishlist-button-product").click()
     # Выбор списка для товара
@@ -35,9 +34,8 @@ def test_add_to_wish_list(browser, clean_wishlist):
 
 def test_checkout_from_cart(browser):
     # Выбор товара на главной
-    feature_product = browser.find_elements(By.CSS_SELECTOR, "[data-type='popularproducts'] .product")[0]
-    product_name = feature_product.find_element(By.CSS_SELECTOR, ".product-description a").text
-    feature_product.click()
+    product_name = MainPage(browser).get_featured_product_name()
+    MainPage(browser).click_featured_product()
     # Клик по кнопке добавления в корзину
     browser.find_element(By.CSS_SELECTOR, "[data-button-action='add-to-cart']").click()
     # Переход в корзину
@@ -46,9 +44,7 @@ def test_checkout_from_cart(browser):
     browser.find_element(By.XPATH, '//a[text()="Proceed to checkout"]').click()
     browser.find_element(By.CSS_SELECTOR, "[data-link-action='show-login-form']").click()
     # Авторизация
-    browser.find_element(By.CSS_SELECTOR, "#login-form #field-email").send_keys("test2@mail.ru")
-    browser.find_element(By.CSS_SELECTOR, "#login-form #field-password").send_keys("Mypassword123!")
-    browser.find_element(By.CSS_SELECTOR, "#login-form [data-link-action='sign-in']").click()
+    LoginForm(browser).login("test2@mail.ru", "Mypassword123!", "[data-link-action='sign-in']")
     # Проверка что авторизация прошла
     WebDriverWait(browser, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#delivery-address")))
     browser.find_element(By.CSS_SELECTOR, '[data-target="#cart-summary-product-list"]').click()
@@ -60,14 +56,12 @@ def test_checkout_from_cart(browser):
 
 def test_add_product_review(browser):
     # Выбор товара на главной
-    feature_product = browser.find_elements(By.CSS_SELECTOR, "[data-type='popularproducts'] .product")[0]
-    product_name = feature_product.find_element(By.CSS_SELECTOR, ".product-description a").text
-    feature_product.click()
+    product_name = MainPage(browser).get_featured_product_name()
+    MainPage(browser).click_featured_product()
+    # Клик по кнопке логина
     browser.find_element(By.CSS_SELECTOR, '[title="Log in to your customer account"]').click()
     # Авторизация
-    browser.find_element(By.CSS_SELECTOR, "#field-email").send_keys("test2@mail.ru")
-    browser.find_element(By.CSS_SELECTOR, "#field-password").send_keys("Mypassword123!")
-    browser.find_element(By.CSS_SELECTOR, "#submit-login").click()
+    LoginForm(browser).login("test2@mail.ru", "Mypassword123!", "#submit-login")
     # Клик по кнопке отзыва
     browser.find_element(By.CSS_SELECTOR, ".product-comments-additional-info button").click()
     WebDriverWait(browser, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#post-product-comment-form")))
