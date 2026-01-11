@@ -9,4 +9,4 @@ class ProductReviewModal(BaseElement):
     PRODUCT_NAME = (By.CSS_SELECTOR, "#post-product-comment-form p")
 
     def verify_product_name(self, product_name):
-        WebDriverWait(self.driver, 2).until(EC.text_to_be_present_in_element(self.PRODUCT_NAME, product_name))
+        self.wait_text_in_element(self.PRODUCT_NAME, product_name)

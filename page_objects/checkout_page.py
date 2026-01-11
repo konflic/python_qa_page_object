@@ -1,6 +1,4 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from page_objects.base_page import BasePage
 
@@ -18,7 +16,7 @@ class CheckoutPage(BasePage):
         self.click(self.SUMMARY_PRODUCTS)
 
     def verify_product_in_list(self, product_name):
-        WebDriverWait(self.driver, 2).until(EC.text_to_be_present_in_element(self.PRODUCT_NAME, product_name))
+        self.wait_text_in_element(self.PRODUCT_NAME, product_name)
 
     def verify_delivery_form(self):
-        WebDriverWait(self.driver, 2).until(EC.visibility_of_element_located(self.DELIVERY_FORM))
+        return self.wait_element_visible(self.DELIVERY_FORM)
