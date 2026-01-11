@@ -7,4 +7,4 @@ class BlockCartModal(BaseElement):
     GO_TO_CART = (By.CSS_SELECTOR, "#blockcart-modal a")
 
     def go_to_cart(self):
-        self.driver.find_element(*self.GO_TO_CART).click()
+        self.click(self.GO_TO_CART)

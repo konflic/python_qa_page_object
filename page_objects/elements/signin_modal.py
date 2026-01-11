@@ -7,4 +7,4 @@ class SignInModal(BaseElement):
     LOGIN_SWITCHER = (By.CSS_SELECTOR, ".wishlist-login .wishlist-modal a")
 
     def click_sign_in(self):
-        self.driver.find_element(*self.LOGIN_SWITCHER).click()
+        self.click(self.LOGIN_SWITCHER)

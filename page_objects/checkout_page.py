@@ -12,10 +12,10 @@ class CheckoutPage(BasePage):
     LOGIN_SWITCHER = (By.CSS_SELECTOR, "[data-link-action='show-login-form']")
 
     def switch_to_login(self):
-        self.driver.find_element(*self.LOGIN_SWITCHER).click()
+        self.click(self.LOGIN_SWITCHER)
 
     def click_summary_products(self):
-        self.driver.find_element(*self.SUMMARY_PRODUCTS).click()
+        self.click(self.SUMMARY_PRODUCTS)
 
     def verify_product_in_list(self, product_name):
         WebDriverWait(self.driver, 2).until(EC.text_to_be_present_in_element(self.PRODUCT_NAME, product_name))

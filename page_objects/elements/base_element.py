@@ -1,3 +1,5 @@
-class BaseElement:
-    def __init__(self, driver):
-        self.driver = driver
+from page_objects.base_page import BasePage
+
+
+class BaseElement(BasePage):
+    pass

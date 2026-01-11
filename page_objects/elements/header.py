@@ -7,4 +7,4 @@ class Header(BasePage):
     LOGIN_LINK = (By.CSS_SELECTOR, '[title="Log in to your customer account"]')
 
     def click_sign_in(self):
-        self.driver.find_element(*self.LOGIN_LINK).click()
+        self.click(self.LOGIN_LINK)
