@@ -1,9 +1,9 @@
 from selenium.webdriver.common.by import By
 
+from page_objects.base_page import BasePage
 
-class LoginForm:
-    def __init__(self, driver):
-        self.driver = driver
+
+class LoginForm(BasePage):
 
     def login(self, username, password, submit_element):
         self.driver.find_element(By.CSS_SELECTOR, "#login-form #field-email").send_keys(username)

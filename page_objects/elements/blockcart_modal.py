@@ -1,11 +1,10 @@
 from selenium.webdriver.common.by import By
 
+from page_objects.elements.base_element import BaseElement
 
-class BlockCartModal:
+
+class BlockCartModal(BaseElement):
     GO_TO_CART = (By.CSS_SELECTOR, "#blockcart-modal a")
-
-    def __init__(self, driver):
-        self.driver = driver
 
     def go_to_cart(self):
         self.driver.find_element(*self.GO_TO_CART).click()

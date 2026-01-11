@@ -1,10 +1,10 @@
 from selenium.webdriver.common.by import By
 
+from page_objects.elements.base_element import BaseElement
 
-class SignInModal:
-    LOGIN_SWITCHER = (By.CSS_SELECTOR, '.wishlist-login .wishlist-modal a')
-    def __init__(self, driver):
-        self.driver = driver
+
+class SignInModal(BaseElement):
+    LOGIN_SWITCHER = (By.CSS_SELECTOR, ".wishlist-login .wishlist-modal a")
 
     def click_sign_in(self):
         self.driver.find_element(*self.LOGIN_SWITCHER).click()

@@ -2,15 +2,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from page_objects.base_page import BasePage
 
-class CheckoutPage:
+
+class CheckoutPage(BasePage):
     SUMMARY_PRODUCTS = (By.CSS_SELECTOR, '[data-target="#cart-summary-product-list"]')
     DELIVERY_FORM = (By.CSS_SELECTOR, "#delivery-address")
     PRODUCT_NAME = (By.CSS_SELECTOR, "span.product-name")
     LOGIN_SWITCHER = (By.CSS_SELECTOR, "[data-link-action='show-login-form']")
-
-    def __init__(self, driver):
-        self.driver = driver
 
     def switch_to_login(self):
         self.driver.find_element(*self.LOGIN_SWITCHER).click()
